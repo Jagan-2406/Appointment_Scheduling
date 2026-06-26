@@ -17,7 +17,7 @@ const publicRoutes = require('./routes/publicRoutes');
 const app = express();
 
 // CORS Configuration
-const allowedOrigins = (process.env.FRONTEND_ORIGIN || 'http://localhost:3000')
+const allowedOrigins = (process.env.FRONTEND_ORIGIN || 'https://appointment-scheduling-zeta.vercel.app')
   .split(',')
   .map((o) => o.trim());
 
