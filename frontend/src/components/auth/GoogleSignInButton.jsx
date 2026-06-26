@@ -20,7 +20,7 @@ const GoogleSignInButton = ({ userRole = "customer", onSuccess = null }) => {
       }
 
       // Send ID token to backend for verification and login/registration
-      const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/google`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'}/auth/google`, {
         idToken,
         role: userRole,
         termsAccepted: true,
