@@ -1,6 +1,10 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://appointment-scheduling-backend-2q31.onrender.com/api";
+// Resolve the API base URL from the Vite environment variable.
+// Falls back to the known production URL (includes the required /api prefix).
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  "https://appointment-scheduling-backend-2q31.onrender.com/api";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -10,7 +14,7 @@ const apiClient = axios.create({
   timeout: 30000,
 });
 
-// Add token to requests
+// Add token to outbound requests
 apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -22,18 +26,26 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Handle response errors
+// Global response handling
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response) {
       const { status, data } = error.response;
 
-      // Token expired or invalid
+      // 401 – token expired/invalid → redirect to login (unless already on a public page)
       if (status === 401) {
         const currentPath = window.location.pathname;
-        // Don't redirect if already on login/register/public pages
-        const publicPaths = ["/", "/login", "/register", "/about", "/services", "/terms", "/privacy", "/verify-email"];
+        const publicPaths = [
+          "/",
+          "/login",
+          "/register",
+          "/about",
+          "/services",
+          "/terms",
+          "/privacy",
+          "/verify-email",
+        ];
         if (!publicPaths.includes(currentPath)) {
           localStorage.removeItem("token");
           localStorage.removeItem("user");
@@ -41,7 +53,7 @@ apiClient.interceptors.response.use(
         }
       }
 
-      // Profile incomplete redirect
+      // 403 – profile incomplete → redirect to complete‑profile page
       if (status === 403 && data?.redirectTo === "/complete-profile") {
         const currentPath = window.location.pathname;
         if (currentPath !== "/complete-profile") {
@@ -49,7 +61,6 @@ apiClient.interceptors.response.use(
         }
       }
     }
-
     return Promise.reject(error);
   }
 );
