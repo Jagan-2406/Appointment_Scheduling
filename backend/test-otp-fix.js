@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://appointment-scheduling-backend-2q31.onrender.com/api';
 
 async function testOTPFlow() {
   try {
