@@ -8,7 +8,10 @@ const providerProfileSchema = new mongoose.Schema(
     description: { type: String, trim: true },
     address: { type: String, trim: true },
     contactNumber: { type: String, trim: true },
-    workingHours: { type: String, trim: true },
+    workingHours: {
+      start: { type: String, trim: true },
+      end: { type: String, trim: true }
+    },
     appointmentInstructions: { type: String, trim: true },
     isComplete: { type: Boolean, default: false },
     
