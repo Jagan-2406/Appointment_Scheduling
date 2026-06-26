@@ -20,8 +20,7 @@ const GoogleSignInButton = ({ userRole = "customer", onSuccess = null }) => {
       }
 
       // Send ID token to backend for verification and login/registration
-      const backendBase = import.meta.env.VITE_API_BASE_URL || 'https://appointment-scheduling-backend-2q31.onrender.com/api';
-      const response = await axios.post(`${backendBase}/auth/google`, {
+      const response = await apiClient.post('/auth/google', {
         idToken,
         role: userRole,
         termsAccepted: true,

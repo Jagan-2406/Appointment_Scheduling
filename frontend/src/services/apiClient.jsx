@@ -1,9 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  import.meta.env.VITE_API_BASE_URL_PRODUCTION ||
-  "https://appointment-scheduling-backend-2q31.onrender.com/api"
+const API_BASE_URL = "https://appointment-scheduling-backend-2q31.onrender.com/api";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
